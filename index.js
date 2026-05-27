@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 
 app.get('/listings', async (req, res) => {
     const allHotels = await HotelInfo.find({});
-    res.render('home', { allHotels });
+    res.render('listings/home', { allHotels });
 })
 
 const PORT = 3000;

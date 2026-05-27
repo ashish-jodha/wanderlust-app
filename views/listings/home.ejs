@@ -1,0 +1,76 @@
+<% layout('layouts/boilerplate') %>
+
+<% 
+    const containerStyle = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full";
+    const heroSection = "mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6";
+    const heroTextWrap = "max-w-2xl";
+    const mainHeading = "text-4xl font-extrabold tracking-tight sm:text-5xl text-zinc-900 mb-3";
+    const subHeading = "text-lg text-zinc-500";
+    const heroAction = "hidden md:block";
+    const heroBtn = "bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-full font-semibold transition-colors duration-200 shadow-sm hover:shadow-md inline-block";
+    const gridContainer = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8";
+    const cardStyle = "group flex flex-col bg-white rounded-2xl overflow-hidden border border-zinc-100 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer text-decoration-none";
+    const imgWrapper = "aspect-[4/3] w-full overflow-hidden bg-zinc-200 relative";
+    const imgStyle = "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500";
+    const cardContent = "p-4 flex flex-col flex-grow";
+    const cardTitle = "font-bold text-zinc-900 truncate text-lg";
+    const cardLocation = "text-sm text-zinc-500 mt-1 truncate";
+    const cardPriceBox = "mt-4 pt-4 border-t border-zinc-50 mt-auto flex items-center justify-between";
+    const cardPrice = "font-semibold text-zinc-900 text-lg";
+    const cardPriceText = "text-sm font-normal text-zinc-500";
+    const exploreText = "text-rose-500 text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-[-10px] group-hover:translate-x-0";
+    const emptyState = "text-center py-24 text-zinc-500 text-lg bg-white rounded-2xl border border-dashed border-zinc-300 shadow-sm flex flex-col items-center gap-4";
+    const emptyBtn = "bg-zinc-900 hover:bg-zinc-800 text-white px-6 py-2 rounded-full font-medium transition-colors text-sm";
+%>
+
+<div class="<%= containerStyle %>">
+    
+    <div class="<%= heroSection %>">
+        <div class="<%= heroTextWrap %>">
+            <h1 class="<%= mainHeading %>">Find your next stay</h1>
+            <p class="<%= subHeading %>">Discover incredible homes, cabins, and villas around the world.</p>
+        </div>
+        <div class="<%= heroAction %>">
+            <a href="/listings/new" class="<%= heroBtn %>">Add a Listing</a>
+        </div>
+    </div>
+
+    <% if (allHotels && allHotels.length > 0) { %>
+        <div class="<%= gridContainer %>">
+            <% for(let hotel of allHotels) { %>
+                
+                <a href="/listings/<%= hotel._id %>" class="<%= cardStyle %>">
+                    
+                    <div class="<%= imgWrapper %>">
+                        <img src="<%= hotel.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000' %>" 
+                             alt="<%= hotel.name %>" 
+                             class="<%= imgStyle %>">
+                    </div>
+                    
+                    <div class="<%= cardContent %>">
+                        <h3 class="<%= cardTitle %>"><%= hotel.name %></h3>
+                        <p class="<%= cardLocation %>"><%= hotel.location %>, <%= hotel.country %></p>
+                        
+                        <div class="<%= cardPriceBox %>">
+                            <div>
+                                <span class="<%= cardPrice %>">&#8377; <%= hotel.price.toLocaleString('en-IN') %></span>
+                                <span class="<%= cardPriceText %>">/ night</span>
+                            </div>
+                            <span class="<%= exploreText %>">Explore &rarr;</span>
+                        </div>
+                    </div>
+
+                </a>
+                
+            <% } %>
+        </div>
+    <% } else { %>
+        
+        <div class="<%= emptyState %>">
+            <p>No stays are currently available.</p>
+            <a href="/listings/new" class="<%= emptyBtn %>">Be the first to host</a>
+        </div>
+        
+    <% } %>
+
+</div>
