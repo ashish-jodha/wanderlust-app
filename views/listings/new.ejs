@@ -1,0 +1,114 @@
+<% layout('layouts/boilerplate') %>
+<% 
+    const pageWrap = "relative flex items-center justify-center min-h-[85vh] py-12 px-4 sm:px-6 lg:px-8 overflow-hidden";
+    const bgGlow1 = "absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-rose-400/20 blur-[120px] rounded-full pointer-events-none";
+    const bgGlow2 = "absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-orange-400/10 blur-[120px] rounded-full pointer-events-none";
+    const formCard = "relative w-full max-w-5xl bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-white flex flex-col md:flex-row overflow-hidden";
+    const leftPanel = "bg-zinc-900 p-10 md:p-14 md:w-5/12 flex flex-col justify-between relative overflow-hidden text-white";
+    const leftDecor = "absolute -bottom-32 -right-32 w-80 h-80 bg-rose-500/40 blur-[80px] rounded-full pointer-events-none";
+    const brandBadge = "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-sm font-bold text-white w-max mb-12";
+    const titleText = "text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight mb-4";
+    const subtitleText = "text-zinc-400 text-lg leading-relaxed font-medium";
+    const rightPanel = "p-8 md:p-14 md:w-7/12 bg-white space-y-6 group needs-validation";
+    const gridTwoCol = "grid grid-cols-1 sm:grid-cols-2 gap-6";
+    const inputGroup = "flex flex-col relative";
+    const labelStyle = "text-[0.8rem] font-bold text-zinc-500 uppercase tracking-widest mb-2 ml-1";
+    const inputBase = "peer w-full px-5 py-4 rounded-2xl border-2 border-zinc-100 bg-zinc-50 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 outline-none transition-all duration-300 text-zinc-900 placeholder-zinc-400 group-[.was-validated]:invalid:border-rose-500 group-[.was-validated]:valid:border-green-500 font-semibold text-base shadow-sm";
+    const textAreaBase = "peer w-full px-5 py-4 rounded-2xl border-2 border-zinc-100 bg-zinc-50 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 outline-none transition-all duration-300 text-zinc-900 placeholder-zinc-400 resize-y min-h-[140px] group-[.was-validated]:invalid:border-rose-500 group-[.was-validated]:valid:border-green-500 font-semibold text-base shadow-sm";
+    const invalidMsg = "hidden text-rose-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-invalid:flex transition-all";
+    const validMsg = "hidden text-green-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-valid:flex transition-all";
+    const submitWrap = "pt-6 mt-6 border-t border-zinc-100 flex flex-col-reverse sm:flex-row items-center justify-end gap-4";
+    const submitBtn = "w-full sm:w-auto bg-zinc-900 hover:bg-rose-500 text-white px-10 py-4 rounded-2xl font-bold shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_25px_rgba(244,63,94,0.3)] transition-all duration-300 cursor-pointer text-center text-lg transform hover:-translate-y-1";
+    const cancelBtn = "w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition-colors text-center text-decoration-none";
+%>
+
+<div class="<%= pageWrap %>">
+    
+    <div class="<%= bgGlow1 %>"></div>
+    <div class="<%= bgGlow2 %>"></div>
+
+    <div class="<%= formCard %>">
+        
+        <div class="<%= leftPanel %>">
+            <div>
+                <div class="<%= brandBadge %>">
+                    <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                    Wanderlust Host
+                </div>
+                <h1 class="<%= titleText %>">Open your door to the world.</h1>
+                <p class="<%= subtitleText %>">Turn your extra space into extra income by welcoming guests from across the globe.</p>
+            </div>
+            <div class="<%= leftDecor %>"></div>
+        </div>
+
+        <form method="POST" action="/listings" novalidate class="<%= rightPanel %>">
+            
+            <div class="<%= inputGroup %>">
+                <label for="name" class="<%= labelStyle %>">Listing Title</label>
+                <input type="text" id="name" name="listing[name]" placeholder="e.g. Cozy Cabin in the Woods" class="<%= inputBase %>" required>
+                <div class="<%= validMsg %>">Looks good!</div>
+                <div class="<%= invalidMsg %>">Please provide a valid title.</div>
+            </div>
+
+            <div class="<%= inputGroup %>">
+                <label for="description" class="<%= labelStyle %>">Description</label>
+                <textarea id="description" name="listing[description]" placeholder="Tell guests what makes your place special..." class="<%= textAreaBase %>" required></textarea>
+                <div class="<%= validMsg %>">Looks good!</div>
+                <div class="<%= invalidMsg %>">Please provide a short description.</div>
+            </div>
+
+            <div class="<%= inputGroup %>">
+                <label for="image" class="<%= labelStyle %>">Image URL</label>
+                <input type="text" id="image" name="listing[image]" placeholder="https://images.unsplash.com/..." class="<%= inputBase %>">
+                <div class="<%= validMsg %>">Optional image link accepted.</div>
+            </div>
+
+            <div class="<%= gridTwoCol %>">
+                <div class="<%= inputGroup %>">
+                    <label for="price" class="<%= labelStyle %>">Price per night (&#8377;)</label>
+                    <input type="number" id="price" name="listing[price]" placeholder="1500" min="0" class="<%= inputBase %>" required>
+                    <div class="<%= validMsg %>">Looks good!</div>
+                    <div class="<%= invalidMsg %>">Please enter a valid price.</div>
+                </div>
+                <div class="<%= inputGroup %>">
+                    <label for="country" class="<%= labelStyle %>">Country</label>
+                    <input type="text" id="country" name="listing[country]" placeholder="e.g. India" class="<%= inputBase %>" required>
+                    <div class="<%= validMsg %>">Looks good!</div>
+                    <div class="<%= invalidMsg %>">Country is required.</div>
+                </div>
+            </div>
+
+            <div class="<%= inputGroup %>">
+                <label for="location" class="<%= labelStyle %>">Location (City / Area)</label>
+                <input type="text" id="location" name="listing[location]" placeholder="e.g. Manali, Himachal Pradesh" class="<%= inputBase %>" required>
+                <div class="<%= validMsg %>">Looks good!</div>
+                <div class="<%= invalidMsg %>">Location is required.</div>
+            </div>
+
+            <div class="<%= submitWrap %>">
+                <a href="/listings" class="<%= cancelBtn %>">Cancel</a>
+                <button type="submit" class="<%= submitBtn %>">Add Listing</button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<script>
+    (() => {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>

@@ -29,7 +29,6 @@ const sessionConfig = {
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 };
@@ -47,6 +46,18 @@ app.get('/', (req, res) => {
 app.get('/listings', async (req, res) => {
     const allHotels = await HotelInfo.find({});
     res.render('listings/home', { allHotels });
+})
+
+app.get('/listings/new', (req, res) => {
+    res.render('listings/new');
+})
+
+app.post('/listings', async (req, res) => {
+    const { listing } = req.body;
+
+    await HotelInfo.create({...listing});
+
+    res.redirect(`/listings`);
 })
 
 const PORT = 3000;
