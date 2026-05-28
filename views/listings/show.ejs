@@ -1,0 +1,84 @@
+<% layout('layouts/boilerplate') %>
+<% 
+    const pageWrap = "max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full";
+    const headerWrap = "mb-8";
+    const titleStyle = "text-3xl md:text-4xl font-extrabold text-zinc-900 tracking-tight mb-3";
+    const locationBadge = "inline-flex items-center gap-1.5 text-base text-zinc-600 font-medium";
+    const imageWrap = "w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] rounded-[2rem] overflow-hidden mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.08)] relative";
+    const imageStyle = "w-full h-full object-cover";
+    const contentGrid = "grid grid-cols-1 lg:grid-cols-3 gap-12 relative";
+    const leftCol = "lg:col-span-2 space-y-10";
+    const hostInfoWrap = "flex items-center gap-4 pb-8 border-b border-zinc-200";
+    const avatarFallback = "w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-sm";
+    const hostText = "text-xl font-bold text-zinc-900";
+    const hostSub = "text-zinc-500 text-sm";
+    const descWrap = "prose prose-lg prose-zinc max-w-none text-zinc-700 leading-relaxed";
+    const rightCol = "relative";
+    const actionCard = "bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] lg:sticky lg:top-28";
+    const priceWrap = "flex items-baseline gap-2 mb-6";
+    const priceText = "text-3xl font-extrabold text-zinc-900";
+    const nightText = "text-lg text-zinc-500 font-medium";
+    const actionDivider = "h-px bg-zinc-200 my-6";
+    const btnGroup = "flex flex-col gap-3";
+    const editBtn = "w-full bg-zinc-900 hover:bg-zinc-800 text-white text-center px-6 py-4 rounded-xl font-bold shadow-sm hover:shadow-md transition-all text-decoration-none text-lg";
+    const deleteForm = "w-full";
+    const deleteBtn = "w-full bg-rose-50 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-100 hover:border-rose-500 text-center px-6 py-4 rounded-xl font-bold transition-all text-lg cursor-pointer";
+%>
+
+<div class="<%= pageWrap %>">
+    
+    <div class="<%= headerWrap %>">
+        <h1 class="<%= titleStyle %>"><%= Hotel.name %></h1>
+        <div class="<%= locationBadge %>">
+            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <%= Hotel.location %>, <%= Hotel.country %>
+        </div>
+    </div>
+
+    <div class="<%= imageWrap %>">
+        <img src="<%= Hotel.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1200' %>" 
+             alt="<%= Hotel.name %>" 
+             class="<%= imageStyle %>">
+    </div>
+
+    <div class="<%= contentGrid %>">
+        
+        <div class="<%= leftCol %>">
+            <div class="<%= hostInfoWrap %>">
+                <div class="<%= avatarFallback %>">
+                    <%= Hotel.name.charAt(0).toUpperCase() %>
+                </div>
+                <div>
+                    <h2 class="<%= hostText %>">Hosted by Wanderlust</h2>
+                    <p class="<%= hostSub %>">Superhost &middot; Dedicated to providing great stays</p>
+                </div>
+            </div>
+            
+            <div class="<%= descWrap %>">
+                <p><%= Hotel.description %></p>
+            </div>
+        </div>
+
+        <div class="<%= rightCol %>">
+            <div class="<%= actionCard %>">
+                <div class="<%= priceWrap %>">
+                    <span class="<%= priceText %>">&#8377; <%= Hotel.price.toLocaleString('en-IN') %></span>
+                    <span class="<%= nightText %>">/ night</span>
+                </div>
+                
+                <div class="<%= btnGroup %>">
+                    <a href="/listings/<%= Hotel._id %>/edit" class="<%= editBtn %>">Edit Listing</a>
+                    
+                    <form method="POST" action="/listings/<%= Hotel._id %>?_method=DELETE" class="<%= deleteForm %>">
+                        <button type="submit" class="<%= deleteBtn %>">Delete Listing</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

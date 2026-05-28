@@ -7,8 +7,9 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
-const HotelInfo = require('./models/HotelInfo');
 const app = express();
+
+const listingsRouter = require('./routes/listings');
 
 mongoose.connect('mongodb://127.0.0.1:27017/wanderlust')
     .then(() => console.log("Connected to MongoDB"))
@@ -43,22 +44,7 @@ app.get('/', (req, res) => {
     res.redirect('/listings');
 });
 
-app.get('/listings', async (req, res) => {
-    const allHotels = await HotelInfo.find({});
-    res.render('listings/home', { allHotels });
-})
-
-app.get('/listings/new', (req, res) => {
-    res.render('listings/new');
-})
-
-app.post('/listings', async (req, res) => {
-    const { listing } = req.body;
-
-    await HotelInfo.create({...listing});
-
-    res.redirect(`/listings`);
-})
+app.use('/listings', listingsRouter);
 
 const PORT = 3000;
 
