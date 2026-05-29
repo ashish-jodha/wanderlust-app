@@ -13,7 +13,7 @@ router.get('/new', (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const Hotel = await HotelInfo.findById(id);
+    const Hotel = await HotelInfo.findById(id).populate('reviews');
     res.render("listings/show", { Hotel });
 });
 

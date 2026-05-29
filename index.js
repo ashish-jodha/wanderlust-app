@@ -10,6 +10,7 @@ const passport = require('passport');
 const app = express();
 
 const listingsRouter = require('./routes/listings');
+const reviewsRouter = require('./routes/reviews');
 
 mongoose.connect('mongodb://127.0.0.1:27017/wanderlust')
     .then(() => console.log("Connected to MongoDB"))
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/listings', listingsRouter);
+app.use('/listings/:id/reviews', reviewsRouter);
 
 const PORT = 3000;
 
