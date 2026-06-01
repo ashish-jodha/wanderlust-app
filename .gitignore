@@ -1,8 +1,3 @@
-# Dependency directories
 node_modules/
-
-# Mac OS folder settings
-.DS_Store
-
-# Environment variables (you will need this later)
 .env
+.DS_Store

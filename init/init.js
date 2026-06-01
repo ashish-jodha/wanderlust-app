@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const HotelInfo = require('../models/HotelInfo.js'); 
+const HotelInfo = require('../models/HotelInfo.js');
+const User = require('../models/User.js');
 const initData = require('./data.js');
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
@@ -12,10 +13,32 @@ const initDB = async () => {
     await HotelInfo.deleteMany({});
     console.log("Existing database cleared.");
 
-    await HotelInfo.insertMany(initData.data);
-    console.log("New data successfully initialized!");
+    let seedUser = await User.findOne({ username: 'Ashish' });
 
-  } catch (err) {
+    if (!seedUser) {
+      console.log("Owner 'Ashish' not found. Creating seed user...");
+
+      const newUser = new User({ email: 'ashish@wanderlust.com', username: 'Ashish' });
+      seedUser = await User.register(newUser, 'password123');
+
+      console.log("Seed user 'Ashish' created.");
+    } 
+    else 
+    {
+      console.log("Seed user 'Ashish' found.");
+    }
+
+    const updatedData = initData.data.map((obj) => ({
+      ...obj,
+      owner: seedUser._id
+    }));
+
+    await HotelInfo.insertMany(updatedData);
+    console.log("New data successfully initialized with owner Ashish!");
+
+  } 
+  catch (err) 
+  {
     console.log("Error initializing data:", err);
   }
 };

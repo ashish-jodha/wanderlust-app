@@ -25,14 +25,13 @@
     const divider = "h-px bg-zinc-200 my-2";
     const reviewSectionTitle = "text-2xl font-extrabold text-zinc-900 mb-6";
     const reviewFormWrap = "bg-zinc-50 p-6 sm:p-8 rounded-3xl border border-zinc-100 shadow-sm";
-    const gridTwoCol = "grid grid-cols-1 sm:grid-cols-2 gap-6";
+    const formStack = "flex flex-col gap-6";
     const inputGroup = "flex flex-col relative";
     const labelStyle = "text-[0.8rem] font-bold text-zinc-500 uppercase tracking-widest mb-2 ml-1";
-    const inputBase = "peer w-full px-5 py-4 rounded-2xl border-2 border-zinc-100 bg-white focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/10 outline-none transition-all duration-300 text-zinc-900 placeholder-zinc-400 group-[.was-validated]:invalid:border-rose-500 group-[.was-validated]:valid:border-green-500 font-semibold text-base shadow-sm";
     const textAreaBase = "peer w-full px-5 py-4 rounded-2xl border-2 border-zinc-100 bg-white focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/10 outline-none transition-all duration-300 text-zinc-900 placeholder-zinc-400 resize-y min-h-[140px] group-[.was-validated]:invalid:border-rose-500 group-[.was-validated]:valid:border-green-500 font-semibold text-base shadow-sm";
     const invalidMsg = "hidden text-rose-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-invalid:flex transition-all";
     const validMsg = "hidden text-green-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-valid:flex transition-all";
-    const reviewSubmitBtn = "mt-6 bg-zinc-900 hover:bg-rose-500 text-white px-8 py-3.5 rounded-2xl font-bold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer transform hover:-translate-y-0.5 inline-block";
+    const reviewSubmitBtn = "mt-6 bg-zinc-900 hover:bg-rose-500 text-white px-8 py-3.5 rounded-2xl font-bold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer transform hover:-translate-y-0.5 inline-block w-max";
     const reviewsGrid = "grid grid-cols-1 gap-6";
     const reviewCard = "p-6 rounded-3xl border border-zinc-200 bg-white shadow-sm flex flex-col justify-between items-start gap-4 hover:shadow-md transition-shadow w-full";
     const reviewCardHeader = "flex items-start justify-between w-full border-b border-zinc-100 pb-4";
@@ -77,10 +76,10 @@
         <div class="<%= leftCol %>">
             <div class="<%= hostInfoWrap %>">
                 <div class="<%= avatarFallback %>">
-                    <%= Hotel.name.charAt(0).toUpperCase() %>
+                    <%= Hotel.owner.username.charAt(0).toUpperCase() %>
                 </div>
                 <div>
-                    <h2 class="<%= hostText %>">Hosted by Wanderlust</h2>
+                    <h2 class="<%= hostText %>">Hosted by <%= Hotel.owner.username %></h2>
                     <p class="<%= hostSub %>">Superhost &middot; Dedicated to providing great stays</p>
                 </div>
             </div>
@@ -91,47 +90,42 @@
 
             <div class="<%= divider %>"></div>
 
-            <div class="<%= reviewFormWrap %>">
-                <h3 class="<%= reviewSectionTitle %>">Leave a Review</h3>
-                <form method="POST" action="/listings/<%= Hotel._id %>/reviews" novalidate class="group needs-validation">
-                    <div class="<%= gridTwoCol %>">
-                        
-                        <div class="<%= inputGroup %>">
-                            <label for="name" class="<%= labelStyle %>">Your Name</label>
-                            <input type="text" id="name" name="review[name]" placeholder="John Doe" class="<%= inputBase %>" required>
-                            <div class="<%= validMsg %>">Looks good!</div>
-                            <div class="<%= invalidMsg %>">Name is required.</div>
-                        </div>
-                        
-                        <div class="<%= inputGroup %>">
-                            <label class="<%= labelStyle %>">Rating</label>
-                            <div class="star-rating-interactive mt-2">
-                                <input type="radio" id="rate5" name="review[rating]" value="5" />
-                                <label for="rate5" title="5 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
-                                <input type="radio" id="rate4" name="review[rating]" value="4" />
-                                <label for="rate4" title="4 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
-                                <input type="radio" id="rate3" name="review[rating]" value="3" />
-                                <label for="rate3" title="3 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
-                                <input type="radio" id="rate2" name="review[rating]" value="2" />
-                                <label for="rate2" title="2 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
-                                <input type="radio" id="rate1" name="review[rating]" value="1" checked />
-                                <label for="rate1" title="1 star"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
+            <% if(currentUser) { %>
+                <div class="<%= reviewFormWrap %>">
+                    <h3 class="<%= reviewSectionTitle %>">Leave a Review</h3>
+                    <form method="POST" action="/listings/<%= Hotel._id %>/reviews" novalidate class="group needs-validation">
+                        <div class="<%= formStack %>">
+                            
+                            <div class="<%= inputGroup %>">
+                                <label class="<%= labelStyle %>">Rating</label>
+                                <div class="star-rating-interactive mt-2">
+                                    <input type="radio" id="rate5" name="review[rating]" value="5" />
+                                    <label for="rate5" title="5 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
+                                    <input type="radio" id="rate4" name="review[rating]" value="4" />
+                                    <label for="rate4" title="4 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
+                                    <input type="radio" id="rate3" name="review[rating]" value="3" />
+                                    <label for="rate3" title="3 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
+                                    <input type="radio" id="rate2" name="review[rating]" value="2" />
+                                    <label for="rate2" title="2 stars"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
+                                    <input type="radio" id="rate1" name="review[rating]" value="1" checked />
+                                    <label for="rate1" title="1 star"><svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg></label>
+                                </div>
                             </div>
+
+                            <div class="<%= inputGroup %>">
+                                <label for="comment" class="<%= labelStyle %>">Your Review</label>
+                                <textarea id="comment" name="review[comment]" placeholder="Share details of your own experience at this place..." class="<%= textAreaBase %>" required></textarea>
+                                <div class="<%= validMsg %>">Looks good!</div>
+                                <div class="<%= invalidMsg %>">Please write a review comment.</div>
+                            </div>
+
                         </div>
+                        <button type="submit" class="<%= reviewSubmitBtn %>">Submit Review</button>
+                    </form>
+                </div>
 
-                        <div class="<%= inputGroup %> sm:col-span-2">
-                            <label for="comment" class="<%= labelStyle %>">Your Review</label>
-                            <textarea id="comment" name="review[comment]" placeholder="Share details of your own experience at this place..." class="<%= textAreaBase %>" required></textarea>
-                            <div class="<%= validMsg %>">Looks good!</div>
-                            <div class="<%= invalidMsg %>">Please write a review comment.</div>
-                        </div>
-
-                    </div>
-                    <button type="submit" class="<%= reviewSubmitBtn %>">Submit Review</button>
-                </form>
-            </div>
-
-            <div class="<%= divider %>"></div>
+                <div class="<%= divider %>"></div>
+            <% } %>
 
             <div>
                 <h3 class="<%= reviewSectionTitle %>">Guest Reviews</h3>
@@ -144,10 +138,10 @@
                                 <div class="<%= reviewCardHeader %>">
                                     <div class="flex items-center gap-3">
                                         <div class="<%= reviewAvatar %>">
-                                            <%= review.name.charAt(0).toUpperCase() %>
+                                            <%= review.author.username.charAt(0).toUpperCase() %>
                                         </div>
                                         <div>
-                                            <h4 class="<%= reviewName %>"><%= review.name %></h4>
+                                            <h4 class="<%= reviewName %>"><%= review.author.username %></h4>
                                             <p class="<%= reviewDate %>"><%= review.date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) %></p>
                                         </div>
                                     </div>
@@ -159,9 +153,11 @@
 
                                 <p class="<%= reviewCommentText %>"><%= review.comment %></p>
 
-                                <form method="POST" action="/listings/<%= Hotel._id %>/reviews/<%= review._id %>?_method=DELETE">
-                                    <button type="submit" class="<%= reviewDeleteBtn %>">Delete Review</button>
-                                </form>
+                                <% if (currentUser && currentUser._id.equals(review.author._id)) { %>
+                                    <form method="POST" action="/listings/<%= Hotel._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                        <button type="submit" class="<%= reviewDeleteBtn %>">Delete Review</button>
+                                    </form>
+                                <% } %>
 
                             </div>
                         <% } %>
@@ -180,13 +176,15 @@
                     <span class="<%= nightText %>">/ night</span>
                 </div>
                 
-                <div class="<%= btnGroup %>">
-                    <a href="/listings/<%= Hotel._id %>/edit" class="<%= editBtn %>">Edit Listing</a>
-                    
-                    <form method="POST" action="/listings/<%= Hotel._id %>?_method=DELETE" class="<%= deleteForm %>">
-                        <button type="submit" class="<%= deleteBtn %>">Delete Listing</button>
-                    </form>
-                </div>
+                <% if (currentUser && currentUser._id.equals(Hotel.owner._id)) { %>
+                    <div class="<%= btnGroup %>">
+                        <a href="/listings/<%= Hotel._id %>/edit" class="<%= editBtn %>">Edit Listing</a>
+                        
+                        <form method="POST" action="/listings/<%= Hotel._id %>?_method=DELETE" class="<%= deleteForm %>">
+                            <button type="submit" class="<%= deleteBtn %>">Delete Listing</button>
+                        </form>
+                    </div>
+                <% } %>
             </div>
         </div>
 

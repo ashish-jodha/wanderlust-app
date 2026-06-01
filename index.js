@@ -7,10 +7,15 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/User');
+const ExpressError = require('./utils/ExpressError'); 
+
 const app = express();
 
 const listingsRouter = require('./routes/listings');
 const reviewsRouter = require('./routes/reviews');
+const userRouter = require('./routes/user');
 
 mongoose.connect('mongodb://127.0.0.1:27017/wanderlust')
     .then(() => console.log("Connected to MongoDB"))
@@ -41,12 +46,33 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    res.locals.currentUser = req.user;
+    next();
+});
+
 app.get('/', (req, res) => {
     res.redirect('/listings');
 });
 
 app.use('/listings', listingsRouter);
 app.use('/listings/:id/reviews', reviewsRouter);
+app.use('/', userRouter);
+
+app.use((req, res) => {
+    throw new ExpressError(404, "Page Not Found");
+});
+
+app.use((err, req, res, next) => {
+    const { status = 500, message = "Something went wrong" } = err;
+    res.status(status).render('error', { message });
+});
 
 const PORT = 3000;
 

@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %>
+<% 
+    const pageWrap = "relative flex flex-col items-center justify-center min-h-[80vh] px-4 sm:px-6 lg:px-8 bg-zinc-50 overflow-hidden";
+    const watermark = "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[15rem] sm:text-[25rem] font-black text-zinc-200/40 select-none pointer-events-none tracking-tighter";
+    const contentWrap = "relative z-10 flex flex-col items-center text-center max-w-lg mx-auto";
+    const iconWrap = "w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm border border-zinc-100 mb-8 text-zinc-900";
+    const titleStyle = "text-4xl sm:text-5xl font-extrabold text-zinc-900 tracking-tight mb-4";
+    const subtitleStyle = "text-lg text-zinc-500 font-medium leading-relaxed mb-10";
+    const btnGroup = "flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto";
+    const homeBtn = "w-full sm:w-auto bg-rose-500 hover:bg-rose-600 text-white px-8 py-4 rounded-full font-bold shadow-sm transition-all duration-200 text-decoration-none";
+    const backBtn = "w-full sm:w-auto bg-white hover:bg-zinc-50 text-zinc-900 border border-zinc-200 px-8 py-4 rounded-full font-bold shadow-sm transition-all duration-200 text-decoration-none cursor-pointer";
+    const devBadge = "mt-16 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-100 text-zinc-500 text-xs font-mono font-semibold border border-zinc-200/60 shadow-inner";
+%>
+
+<div class="<%= pageWrap %>">
+    
+    <div class="<%= watermark %>">Oops</div>
+
+    <div class="<%= contentWrap %>">
+        
+        <div class="<%= iconWrap %>">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4l16 16"></path>
+            </svg>
+        </div>
+        
+        <h1 class="<%= titleStyle %>">Looks like you're lost.</h1>
+        
+        <p class="<%= subtitleStyle %>">We can't seem to find the page or listing you're looking for. Let's get you back on the right path.</p>
+        
+        <div class="<%= btnGroup %>">
+            <button onclick="history.back()" class="<%= backBtn %>">Go Back</button>
+            <a href="/listings" class="<%= homeBtn %>">Return Home</a>
+        </div>
+
+        <div class="<%= devBadge %>">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+            Log: <%= message %>
+        </div>
+        
+    </div>
+</div>

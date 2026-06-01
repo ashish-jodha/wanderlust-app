@@ -37,7 +37,11 @@ const hotelSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Review'
     }
-  ]
+  ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
 hotelSchema.post('findOneAndDelete', async function(hotel) {

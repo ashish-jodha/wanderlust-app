@@ -1,45 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const HotelInfo = require('../models/HotelInfo');
+const listingController = require('../controllers/listings');
+const { isLoggedIn, isOwner, validateListing } = require('../middleware');
 
-router.get('/', async (req, res) => {
-    const allHotels = await HotelInfo.find({});
-    res.render('listings/home', { allHotels });
-});
+router.route('/')
+    .get(listingController.index)
+    .post(isLoggedIn, validateListing, listingController.createListing);
 
-router.get('/new', (req, res) => {
-    res.render('listings/new');
-});
+router.get('/new', isLoggedIn, listingController.renderNewForm);
 
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-    const Hotel = await HotelInfo.findById(id).populate('reviews');
-    res.render("listings/show", { Hotel });
-});
+router.route('/:id')
+    .get(listingController.showListing)
+    .put(isLoggedIn, isOwner, validateListing, listingController.updateListing)
+    .delete(isLoggedIn, isOwner, listingController.destroyListing);
 
-router.post('/', async (req, res) => {
-    const { listing } = req.body;
-    await HotelInfo.create({ ...listing });
-    res.redirect(`/listings`);
-});
-
-router.get('/:id/edit', async (req, res) => {
-    const { id } = req.params;
-    const Hotel = await HotelInfo.findById(id);
-    res.render('listings/edit', { Hotel });
-});
-
-router.put('/:id', async (req, res) => {
-    const { id } = req.params;
-    const { listing } = req.body;
-    await HotelInfo.findByIdAndUpdate(id, { ...listing });
-    res.redirect(`/listings/${id}`);
-});
-
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-    await HotelInfo.findByIdAndDelete(id);
-    res.redirect('/listings');
-});
+router.get('/:id/edit', isLoggedIn, isOwner, listingController.renderEditForm);
 
 module.exports = router;

@@ -1,0 +1,73 @@
+const HotelInfo = require('../models/HotelInfo');
+
+module.exports.index = async (req, res) => {
+    const allHotels = await HotelInfo.find({});
+    res.render('listings/home', { allHotels });
+};
+
+module.exports.renderNewForm = (req, res) => {
+    res.render('listings/new');
+};
+
+module.exports.showListing = async (req, res) => {
+    const { id } = req.params;
+    
+    const Hotel = await HotelInfo.findById(id)
+        .populate({
+            path: 'reviews',
+            populate: {
+                path: 'author'
+            }
+        })
+        .populate('owner');
+        
+    if (!Hotel) {
+        req.flash('error', 'Cannot find that listing!');
+        return res.redirect('/listings');
+    }
+    
+    res.render("listings/show", { Hotel });
+};
+
+module.exports.createListing = async (req, res) => {
+    const { listing } = req.body;
+    
+    const newHotel = new HotelInfo(listing);
+    newHotel.owner = req.user._id; 
+    
+    await newHotel.save();
+    
+    req.flash('success', 'Successfully created a new listing!');
+    res.redirect(`/listings`);
+};
+
+module.exports.renderEditForm = async (req, res) => {
+    const { id } = req.params;
+    const Hotel = await HotelInfo.findById(id);
+    
+    if (!Hotel) {
+        req.flash('error', 'Cannot find that listing!');
+        return res.redirect('/listings');
+    }
+    
+    res.render('listings/edit', { Hotel });
+};
+
+module.exports.updateListing = async (req, res) => {
+    const { id } = req.params;
+    const { listing } = req.body;
+    
+    await HotelInfo.findByIdAndUpdate(id, { ...listing });
+    
+    req.flash('success', 'Successfully updated listing!');
+    res.redirect(`/listings/${id}`);
+};
+
+module.exports.destroyListing = async (req, res) => {
+    const { id } = req.params;
+    
+    await HotelInfo.findByIdAndDelete(id);
+    
+    req.flash('success', 'Successfully deleted listing!');
+    res.redirect('/listings');
+};

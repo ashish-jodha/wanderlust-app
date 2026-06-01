@@ -1,0 +1,62 @@
+<% 
+    const flashWrap = "max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-6 mb-2 flex flex-col items-center gap-4 z-40 relative";
+    const alertBase = "flex items-center justify-between gap-8 p-4 rounded-2xl border shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 ease-in-out transform translate-y-0 opacity-100 w-fit min-w-[320px] max-w-xl";
+    const successAlert = `${alertBase} bg-emerald-50 border-emerald-200/60 text-emerald-900`;
+    const errorAlert = `${alertBase} bg-rose-50 border-rose-200/60 text-rose-900`;
+    const iconWrap = "flex items-center gap-3";
+    const closeBtn = "opacity-50 hover:opacity-100 transition-opacity cursor-pointer p-1.5 rounded-xl hover:bg-black/5 outline-none flex-shrink-0";
+%>
+
+<% if((success && success.length) || (error && error.length)) { %>
+    <div class="<%= flashWrap %>" id="flash-container">
+        
+        <% if(success && success.length) { %>
+            <div class="<%= successAlert %>" role="alert" id="success-alert">
+                <div class="<%= iconWrap %>">
+                    <div class="bg-emerald-100 p-1.5 rounded-full text-emerald-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm tracking-wide"><%= success %></span>
+                </div>
+                <button type="button" class="<%= closeBtn %>" onclick="dismissAlert('success-alert')">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        <% } %>
+
+        <% if(error && error.length) { %>
+            <div class="<%= errorAlert %>" role="alert" id="error-alert">
+                <div class="<%= iconWrap %>">
+                    <div class="bg-rose-100 p-1.5 rounded-full text-rose-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm tracking-wide"><%= error %></span>
+                </div>
+                <button type="button" class="<%= closeBtn %>" onclick="dismissAlert('error-alert')">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        <% } %>
+
+    </div>
+
+    <script>
+        function dismissAlert(id) {
+            const alert = document.getElementById(id);
+            if (alert) {
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-10px)';
+                setTimeout(() => alert.remove(), 300);
+            }
+        }
+
+        setTimeout(() => {
+            dismissAlert('success-alert');
+            dismissAlert('error-alert');
+        }, 4500);
+    </script>
+<% } %>
