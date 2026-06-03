@@ -1,9 +1,14 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const MongoStore = require('connect-mongo').default || require('connect-mongo');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
@@ -17,8 +22,10 @@ const listingsRouter = require('./routes/listings');
 const reviewsRouter = require('./routes/reviews');
 const userRouter = require('./routes/user');
 
-mongoose.connect('mongodb://127.0.0.1:27017/wanderlust')
-    .then(() => console.log("Connected to MongoDB"))
+const dbUrl = process.env.ATLASDB_URL;
+
+mongoose.connect(dbUrl)
+    .then(() => console.log("Connected to MongoDB Atlas"))
     .catch(err => console.log("MongoDB Connection Error:", err));
 
 app.engine('ejs', ejsMate);
@@ -27,11 +34,24 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(cookieParser('your-secret-cookie-key'));
+app.use(cookieParser(process.env.SECRET));
 app.use(express.static(path.join(__dirname, 'public')));
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto: {
+        secret: process.env.SECRET
+    },
+    touchAfter: 24 * 3600 
+});
+
+store.on("error", (err) => {
+    console.log("ERROR in MONGO SESSION STORE", err);
+});
+
 const sessionConfig = {
-    secret: 'wanderlust-secret-code',
+    store, 
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -74,7 +94,7 @@ app.use((err, req, res, next) => {
     res.status(status).render('error', { message });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server serving on port ${PORT}`);

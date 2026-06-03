@@ -46,14 +46,14 @@
             
             <div class="<%= inputGroup %>">
                 <label for="username" class="<%= labelStyle %>">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" class="<%= inputBase %>" required autofocus>
+                <input type="text" id="username" name="username" placeholder="Enter your username" class="<%= inputBase %>" required autofocus autocomplete="username">
                 <div class="<%= validMsg %>">Looks good!</div>
                 <div class="<%= invalidMsg %>">Please enter your username.</div>
             </div>
 
             <div class="<%= inputGroup %>">
                 <label for="password" class="<%= labelStyle %>">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" class="<%= inputBase %>" required>
+                <input type="password" id="password" name="password" placeholder="••••••••" class="<%= inputBase %>" required autocomplete="current-password">
                 <div class="<%= validMsg %>">Looks good!</div>
                 <div class="<%= invalidMsg %>">Please enter your password.</div>
             </div>

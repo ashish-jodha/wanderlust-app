@@ -1,11 +1,16 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const mongoose = require('mongoose');
 const HotelInfo = require('../models/HotelInfo.js');
 const User = require('../models/User.js');
 const initData = require('./data.js');
 
-const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
-mongoose.connect(MONGO_URL)
-  .then(() => console.log("Connected to MongoDB for Initialization"))
+const dbUrl = process.env.ATLASDB_URL;
+
+mongoose.connect(dbUrl)
+  .then(() => console.log("Connected to MongoDB Atlas for Initialization"))
   .catch((err) => console.log("MongoDB Connection Error:", err));
 
 const initDB = async () => {
@@ -19,7 +24,7 @@ const initDB = async () => {
       console.log("Owner 'Ashish' not found. Creating seed user...");
 
       const newUser = new User({ email: 'ashish@wanderlust.com', username: 'Ashish' });
-      seedUser = await User.register(newUser, 'password123');
+      seedUser = await User.register(newUser, 'password123@234^');
 
       console.log("Seed user 'Ashish' created.");
     } 
