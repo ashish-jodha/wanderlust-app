@@ -2,14 +2,14 @@
     const navContainer = "sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-zinc-100 shadow-sm transition-all";
     const navWrapper = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8";
     const navLayout = "flex justify-between items-center h-20";
-    const logoLink = "flex items-center gap-2 group cursor-pointer text-decoration-none";
+    const logoLink = "flex items-center gap-2 cursor-pointer text-decoration-none group"; 
     const logoIcon = "w-8 h-8 text-rose-500 group-hover:rotate-12 transition-transform duration-300";
     const logoText = "text-2xl font-extrabold text-rose-500 tracking-tight";
-    const userMenuWrap = "relative group";
-    const profileBtn = "flex items-center gap-3 border border-zinc-200 rounded-full py-2 pl-4 pr-2 bg-white hover:shadow-md transition-shadow duration-200 cursor-pointer";
+    const userMenuWrap = "relative"; 
+    const profileBtn = "flex items-center gap-3 border border-zinc-200 rounded-full py-2 pl-4 pr-2 bg-white hover:shadow-md transition-shadow duration-200 cursor-pointer select-none";
     const hamburgerIcon = "w-4 h-4 text-zinc-500";
     const avatarIcon = "w-7 h-7 text-zinc-500 bg-zinc-100 rounded-full p-1";
-    const dropdownMenu = "absolute right-0 top-full mt-2 w-60 bg-white rounded-xl shadow-xl border border-zinc-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden py-2";
+    const dropdownMenu = "absolute right-0 top-full mt-2 w-60 bg-white rounded-xl shadow-xl border border-zinc-100 opacity-0 invisible transform scale-95 origin-top-right transition-all duration-200 overflow-hidden py-2";
     const menuItemBold = "block px-4 py-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 transition-colors text-decoration-none";
     const menuItem = "block px-4 py-3 text-sm text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-colors text-decoration-none";
     const divider = "h-px bg-zinc-200 my-1";
@@ -28,7 +28,7 @@
 
             <div class="<%= userMenuWrap %>">
                 
-                <div class="<%= profileBtn %>">
+                <div class="<%= profileBtn %>" id="profile-menu-btn">
                     <svg class="<%= hamburgerIcon %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -37,7 +37,7 @@
                     </svg>
                 </div>
 
-                <div class="<%= dropdownMenu %>">
+                <div class="<%= dropdownMenu %>" id="profile-dropdown">
                     
                     <% if(!currentUser) { %>
                         <a href="/signup" class="<%= menuItemBold %>">Sign up</a>
@@ -57,3 +57,27 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('profile-menu-btn');
+        const dropdown = document.getElementById('profile-dropdown');
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('opacity-0');
+            dropdown.classList.toggle('invisible');
+            dropdown.classList.toggle('scale-95');
+            dropdown.classList.toggle('opacity-100');
+            dropdown.classList.toggle('visible');
+            dropdown.classList.toggle('scale-100');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                dropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+            }
+        });
+    });
+</script>

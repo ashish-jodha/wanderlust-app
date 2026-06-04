@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+
 <% 
     const pageWrap = "max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full";
     const headerWrap = "mb-8";
@@ -9,7 +10,7 @@
     const contentGrid = "grid grid-cols-1 lg:grid-cols-3 gap-12 relative";
     const leftCol = "lg:col-span-2 space-y-10";
     const hostInfoWrap = "flex items-center gap-4 pb-8 border-b border-zinc-200";
-    const avatarFallback = "w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-sm";
+    const avatarFallback = "w-12 h-12 bg-zinc-900 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-sm shrink-0";
     const hostText = "text-xl font-bold text-zinc-900";
     const hostSub = "text-zinc-500 text-sm";
     const descWrap = "prose prose-lg prose-zinc max-w-none text-zinc-700 leading-relaxed";
@@ -31,10 +32,10 @@
     const textAreaBase = "peer w-full px-5 py-4 rounded-2xl border-2 border-zinc-100 bg-white focus:border-zinc-900 focus:ring-4 focus:ring-zinc-900/10 outline-none transition-all duration-300 text-zinc-900 placeholder-zinc-400 resize-y min-h-[140px] group-[.was-validated]:invalid:border-rose-500 group-[.was-validated]:valid:border-green-500 font-semibold text-base shadow-sm";
     const invalidMsg = "hidden text-rose-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-invalid:flex transition-all";
     const validMsg = "hidden text-green-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-valid:flex transition-all";
-    const reviewSubmitBtn = "mt-6 bg-zinc-900 hover:bg-rose-500 text-white px-8 py-3.5 rounded-2xl font-bold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer transform hover:-translate-y-0.5 inline-block w-max";
+    const reviewSubmitBtn = "mt-6 bg-zinc-900 hover:bg-rose-500 text-white px-8 py-3.5 rounded-2xl font-bold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer transform hover:-translate-y-0.5 w-full sm:w-max text-center inline-block";
     const reviewsGrid = "grid grid-cols-1 gap-6";
     const reviewCard = "p-6 rounded-3xl border border-zinc-200 bg-white shadow-sm flex flex-col justify-between items-start gap-4 hover:shadow-md transition-shadow w-full";
-    const reviewCardHeader = "flex items-start justify-between w-full border-b border-zinc-100 pb-4";
+    const reviewCardHeader = "flex items-start justify-between w-full border-b border-zinc-100 pb-4 flex-col sm:flex-row sm:items-center gap-3";
     const reviewAvatar = "w-10 h-10 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center font-bold text-sm shadow-inner shrink-0";
     const reviewName = "font-bold text-zinc-900";
     const reviewDate = "text-xs text-zinc-500 font-medium mt-0.5";
