@@ -30,6 +30,13 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res) => {
+    const listingCount = await HotelInfo.countDocuments({ owner: req.user._id });
+    
+    if (listingCount >= 5) {
+        req.flash('error', 'Free tier limit reached: You can only host a maximum of 5 properties.');
+        return res.redirect('/listings');
+    }
+    
     const { listing } = req.body;
     
     const newHotel = new HotelInfo(listing);
