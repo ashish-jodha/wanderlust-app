@@ -35,6 +35,8 @@ module.exports.createListing = async (req, res) => {
     const newHotel = new HotelInfo(listing);
     newHotel.owner = req.user._id; 
     
+    if (req.file) newHotel.image = req.file.path;
+    
     await newHotel.save();
     
     req.flash('success', 'Successfully created a new listing!');
@@ -57,7 +59,11 @@ module.exports.updateListing = async (req, res) => {
     const { id } = req.params;
     const { listing } = req.body;
     
-    await HotelInfo.findByIdAndUpdate(id, { ...listing });
+    const updatedHotel = await HotelInfo.findByIdAndUpdate(id, { ...listing });
+    
+    if (req.file) updatedHotel.image = req.file.path;
+
+    await updatedHotel.save();
     
     req.flash('success', 'Successfully updated listing!');
     res.redirect(`/listings/${id}`);

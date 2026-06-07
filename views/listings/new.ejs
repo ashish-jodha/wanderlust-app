@@ -15,6 +15,7 @@
     const inputGroup = "flex flex-col relative";
     const labelStyle = "text-[0.8rem] font-bold text-zinc-500 uppercase tracking-widest mb-2 ml-1";
     const inputBase = "peer w-full px-5 py-4 rounded-2xl border-2 border-zinc-100 bg-zinc-50 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 outline-none transition-all duration-300 text-zinc-900 placeholder-zinc-400 group-[.was-validated]:invalid:border-rose-500 group-[.was-validated]:valid:border-green-500 font-semibold text-base shadow-sm";
+    const fileInputBase = "peer w-full px-4 py-3 rounded-2xl border-2 border-zinc-100 bg-zinc-50 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 outline-none transition-all duration-300 text-zinc-500 font-semibold text-base shadow-sm file:mr-5 file:py-2.5 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-zinc-900 file:text-white hover:file:bg-rose-500 file:transition-colors file:cursor-pointer cursor-pointer";
     const textAreaBase = "peer w-full px-5 py-4 rounded-2xl border-2 border-zinc-100 bg-zinc-50 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 outline-none transition-all duration-300 text-zinc-900 placeholder-zinc-400 resize-y min-h-[140px] group-[.was-validated]:invalid:border-rose-500 group-[.was-validated]:valid:border-green-500 font-semibold text-base shadow-sm";
     const invalidMsg = "hidden text-rose-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-invalid:flex transition-all";
     const validMsg = "hidden text-green-500 text-xs font-bold mt-2 ml-1 items-center gap-1 group-[.was-validated]:peer-valid:flex transition-all";
@@ -44,7 +45,7 @@
             <div class="<%= leftDecor %>"></div>
         </div>
 
-        <form method="POST" action="/listings" novalidate class="<%= rightPanel %>">
+        <form method="POST" action="/listings" novalidate class="<%= rightPanel %>" enctype="multipart/form-data">
             
             <div class="<%= inputGroup %>">
                 <label for="name" class="<%= labelStyle %>">Listing Title</label>
@@ -61,9 +62,10 @@
             </div>
 
             <div class="<%= inputGroup %>">
-                <label for="image" class="<%= labelStyle %>">Image URL</label>
-                <input type="text" id="image" name="listing[image]" placeholder="https://images.unsplash.com/..." class="<%= inputBase %>">
-                <div class="<%= validMsg %>">Optional image link accepted.</div>
+                <label for="image" class="<%= labelStyle %>">Upload Image</label>
+                <input type="file" id="image" name="image" class="<%= fileInputBase %>" required>
+                <div class="<%= validMsg %>">File selected.</div>
+                <div class="<%= invalidMsg %>">Please upload an image.</div>
             </div>
 
             <div class="<%= gridTwoCol %>">
