@@ -1,4 +1,5 @@
 const HotelInfo = require('../models/HotelInfo');
+const User = require('../models/User'); 
 
 module.exports.index = async (req, res) => {
     const adminUser = await User.findOne({ username: 'Ashish' });
@@ -26,9 +27,24 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.showListing = async (req, res) => {
     const { id } = req.params;
     
+    const adminUser = await User.findOne({ username: 'Ashish' });
+    const adminId = adminUser ? adminUser._id : null;
+    
+    let reviewMatch = { author: adminId };
+    
+    if (req.user) {
+        reviewMatch = {
+            $or: [
+                { author: adminId },
+                { author: req.user._id }
+            ]
+        };
+    }
+    
     const Hotel = await HotelInfo.findById(id)
         .populate({
             path: 'reviews',
+            match: reviewMatch, 
             populate: {
                 path: 'author'
             }

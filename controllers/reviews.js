@@ -1,5 +1,6 @@
 const HotelInfo = require('../models/HotelInfo');
 const Review = require('../models/Review');
+const User = require('../models/User'); 
 
 module.exports.createReview = async (req, res) => {
     const { id } = req.params;
@@ -10,12 +11,25 @@ module.exports.createReview = async (req, res) => {
     
     newReview.author = req.user._id;
     
+    const adminUser = await User.findOne({ username: 'Ashish' });
+    const isAdmin = adminUser && req.user._id.equals(adminUser._id);
+    
+    if (!isAdmin) {
+        const sevenDaysFromNow = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        newReview.expiresAt = sevenDaysFromNow;
+    }
+    
     hotel.reviews.push(newReview);
     
     await newReview.save();
     await hotel.save();
 
-    req.flash('success', 'New review created!');
+    if (!isAdmin) {
+        req.flash('success', 'Review posted! (Test reviews expire in 7 days)');
+    } else {
+        req.flash('success', 'New permanent review created!');
+    }
+    
     res.redirect(`/listings/${id}`);
 };
 

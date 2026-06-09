@@ -4,13 +4,13 @@ const Schema = mongoose.Schema;
 const reviewSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'User' 
+        ref: 'User'
     },
     rating: {
         type: Number,
         required: true,
-        min: 1, 
-        max: 5  
+        min: 1,
+        max: 5
     },
     comment: {
         type: String,
@@ -18,7 +18,11 @@ const reviewSchema = new Schema({
     },
     date: {
         type: Date,
-        default: Date.now 
+        default: Date.now
+    },
+    expiresAt: {
+        type: Date,
+        expires: 0
     }
 });
 
