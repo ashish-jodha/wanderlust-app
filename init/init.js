@@ -20,14 +20,14 @@ const initDB = async () => {
 
     let seedUser = await User.findOne({ username: 'Ashish' });
 
-    if (!seedUser) {
+if (!seedUser) {
       console.log("Owner 'Ashish' not found. Creating seed user...");
 
       const newUser = new User({ email: 'ashish@wanderlust.com', username: 'Ashish' });
-      seedUser = await User.register(newUser, 'password123@234^');
+      seedUser = await User.register(newUser, process.env.ADMIN_PASSWORD);
 
       console.log("Seed user 'Ashish' created.");
-    } 
+    }
     else 
     {
       console.log("Seed user 'Ashish' found.");
