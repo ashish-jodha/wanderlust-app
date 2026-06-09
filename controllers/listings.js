@@ -1,7 +1,21 @@
 const HotelInfo = require('../models/HotelInfo');
 
 module.exports.index = async (req, res) => {
-    const allHotels = await HotelInfo.find({});
+    const adminUser = await User.findOne({ username: 'Ashish' });
+    const adminId = adminUser._id;
+
+    let query = { owner: adminId }; 
+
+    if (req.user) {
+        query = {
+            $or: [
+                { owner: adminId },
+                { owner: req.user._id }
+            ]
+        };
+    }
+
+    const allHotels = await HotelInfo.find(query);
     res.render('listings/home', { allHotels });
 };
 
@@ -44,9 +58,22 @@ module.exports.createListing = async (req, res) => {
     
     if (req.file) newHotel.image = req.file.path;
     
+    const adminUser = await User.findOne({ username: 'Ashish' });
+    const isAdmin = adminUser && req.user._id.equals(adminUser._id);
+    
+    if (!isAdmin) {
+        const sevenDaysFromNow = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        newHotel.expiresAt = sevenDaysFromNow;
+    }
+    
     await newHotel.save();
     
-    req.flash('success', 'Successfully created a new listing!');
+    if (!isAdmin) {
+        req.flash('success', 'Successfully created a new listing! (Test listings automatically expire after 7 days)');
+    } else {
+        req.flash('success', 'Successfully created a new permanent listing!');
+    }
+    
     res.redirect(`/listings`);
 };
 

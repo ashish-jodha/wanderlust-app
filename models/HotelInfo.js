@@ -41,10 +41,14 @@ const hotelSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  expiresAt: {
+    type: Date,
+    expires: 0 
   }
 });
 
-hotelSchema.post('findOneAndDelete', async function(hotel) {
+hotelSchema.post('findOneAndDelete', async function (hotel) {
   if (hotel && hotel.reviews.length) {
     await Review.deleteMany({
       _id: { $in: hotel.reviews }
