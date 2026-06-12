@@ -1,8 +1,8 @@
 # 🏡 Wanderlust
 
-A full-stack property rental platform built with Node.js, Express, MongoDB, and Tailwind CSS.
+A full-stack web application for creating, managing, and discovering property listings.
 
-Users can browse listings, create properties, upload images, leave reviews, and manage their own content through a secure authentication system. The application also includes a Sandbox Mode that allows visitors to explore core features without affecting public data.
+Built with Node.js, Express, MongoDB, and Tailwind CSS, the platform supports authenticated user accounts, image uploads, reviews, persistent sessions, and automated content management through a secure and scalable backend.
 
 ## 🌐 Live Demo
 
@@ -14,13 +14,13 @@ Users can browse listings, create properties, upload images, leave reviews, and 
 
 * 🔐 User registration and authentication
 * 🏠 Create, edit, and manage property listings
-* 🖼️ Upload listing images with Cloudinary
+* 🖼️ Image uploads with Cloudinary integration
 * ⭐ Reviews and ratings system
-* 🔒 Protected routes and session-based authentication
-* 🧪 Sandbox Mode for safe public testing
+* 🔒 Protected routes and session-based access control
+* 💾 Persistent login sessions with MongoDB
 * ⏳ Automatic cleanup of temporary user-generated content
 * 📱 Responsive user interface
-* ✅ Server-side validation for secure data handling
+* ✅ Server-side validation using Joi
 
 ---
 
